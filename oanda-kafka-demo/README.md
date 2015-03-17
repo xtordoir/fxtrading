@@ -12,9 +12,13 @@ export DOCKER_IP=localhost
 
 Then run the script:
 
-```./run-kafka.sh```
+```
+./run-kafka.sh
+```
+
 
 ### Compile the ticksfeeder:
+
 
 ```
 ./compile-ticksfeed.sh
