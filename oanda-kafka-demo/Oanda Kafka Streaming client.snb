@@ -1,0 +1,424 @@
+{
+  "metadata" : {
+    "name" : "Oanda Kafka Streaming client",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":remote-repo local % default % file:///Users/xavier/.m2/repository",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res1: String = Remote repo added: local % default % file:///Users/xavier/.m2/repository!\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "Remote repo added: local % default % file:///Users/xavier/.m2/repository!"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 1
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":local-repo /tmp/spark-notebook/repo",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res2: String = Repo changed to /tmp/spark-notebook/repo!\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "Repo changed to /tmp/spark-notebook/repo!"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 2
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : ":dp org.apache.spark % spark-streaming_2.10 % 1.2.0\n+   org.apache.spark % spark-streaming-kafka_2.10 % 1.2.0\n+   com.impactopia   % fx-thrift_2.10 % 0.0.1-SNAPSHOT      \n- org.apache.hadoop % hadoop-client %   _\n- org.apache.spark  % spark-core    %   _\n- org.scala-lang    %     _         %   _\n- org.scoverage     %     _         %   _",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "jars: Array[String] = [Ljava.lang.String;@60802f64\nres3: List[String] = List(/tmp/spark-notebook/repo/org/apache/curator/curator-recipes/2.4.0/curator-recipes-2.4.0.jar, /tmp/spark-notebook/repo/commons-io/commons-io/2.4/commons-io-2.4.jar, /tmp/spark-notebook/repo/org/spark-project/spark/unused/1.0.0/unused-1.0.0.jar, /tmp/spark-notebook/repo/net/jpountz/lz4/lz4/1.2.0/lz4-1.2.0.jar, /tmp/spark-notebook/repo/org/xerial/snappy/snappy-java/1.1.1.6/snappy-java-1.1.1.6.jar, /tmp/spark-notebook/repo/commons-net/commons-net/2.2/commons-net-2.2.jar, /tmp/spark-notebook/repo/org/json4s/json4s-jackson_2.10/3.2.10/json4s-jackson_2.10-3.2.10.jar, /tmp/spark-notebook/repo/org/json4s/json4s-ast_2.10/3.2.10/json4s-ast_2.10-3.2.10.jar, /tmp/spark-notebook/repo/org/apache/mesos/mesos/0.18.1/mesos-0.18...."
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<table><tr><td>/tmp/spark-notebook/repo/org/apache/curator/curator-recipes/2.4.0/curator-recipes-2.4.0.jar</td></tr><tr><td>/tmp/spark-notebook/repo/commons-io/commons-io/2.4/commons-io-2.4.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/spark-project/spark/unused/1.0.0/unused-1.0.0.jar</td></tr><tr><td>/tmp/spark-notebook/repo/net/jpountz/lz4/lz4/1.2.0/lz4-1.2.0.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/xerial/snappy/snappy-java/1.1.1.6/snappy-java-1.1.1.6.jar</td></tr><tr><td>/tmp/spark-notebook/repo/commons-net/commons-net/2.2/commons-net-2.2.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/json4s/json4s-jackson_2.10/3.2.10/json4s-jackson_2.10-3.2.10.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/json4s/json4s-ast_2.10/3.2.10/json4s-ast_2.10-3.2.10.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/apache/mesos/mesos/0.18.1/mesos-0.18.1-shaded-protobuf.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/spark-project/pyrolite/2.0.1/pyrolite-2.0.1.jar</td></tr><tr><td>/tmp/spark-notebook/repo/com/twitter/chill-java/0.5.0/chill-java-0.5.0.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/slf4j/slf4j-log4j12/1.7.5/slf4j-log4j12-1.7.5.jar</td></tr><tr><td>/tmp/spark-notebook/repo/com/fasterxml/jackson/core/jackson-core/2.3.1/jackson-core-2.3.1.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/eclipse/jetty/jetty-server/8.1.14.v20131031/jetty-server-8.1.14.v20131031.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/tachyonproject/tachyon-client/0.5.0/tachyon-client-0.5.0.jar</td></tr><tr><td>/tmp/spark-notebook/repo/com/clearspring/analytics/stream/2.7.0/stream-2.7.0.jar</td></tr><tr><td>/tmp/spark-notebook/repo/jline/jline/0.9.94/jline-0.9.94.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/slf4j/jcl-over-slf4j/1.7.5/jcl-over-slf4j-1.7.5.jar</td></tr><tr><td>/tmp/spark-notebook/repo/io/netty/netty/3.8.0.Final/netty-3.8.0.Final.jar</td></tr><tr><td>/tmp/spark-notebook/repo/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar</td></tr><tr><td>/tmp/spark-notebook/repo/com/esotericsoftware/reflectasm/reflectasm/1.07/reflectasm-1.07-shaded.jar</td></tr><tr><td>/tmp/spark-notebook/repo/com/codahale/metrics/metrics-graphite/3.0.0/metrics-graphite-3.0.0.jar</td></tr><tr><td>/tmp/spark-notebook/repo/com/twitter/chill_2.10/0.5.0/chill_2.10-0.5.0.jar</td></tr><tr><td>/tmp/spark-notebook/repo/org/spark-project/akka/akka-actor_2.10/2.3.4-spark/akka-actor_2.10-2.3.4-spark.jar</td></tr><tr><td>...</td></tr></table>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 3
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import org.apache.spark.streaming.{StreamingContext, Duration}\nval ssc = new StreamingContext(sparkContext, Duration(10000))",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import org.apache.spark.streaming.{StreamingContext, Duration}\nssc: org.apache.spark.streaming.StreamingContext = org.apache.spark.streaming.StreamingContext@37cc20a7\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.streaming.StreamingContext@37cc20a7"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 4
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import scala.sys.process._\n// one or the other...\nval docker_ip = (\"boot2docker ip\"!!).mkString.trim\n//val docker_ip = \"localhost\"",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "warning: there were 1 feature warning(s); re-run with -feature for details\nimport scala.sys.process._\ndocker_ip: String = 192.168.59.103\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "192.168.59.103"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import com.impactopia.oanda.thrift._\nimport org.apache.spark.streaming.kafka._\nimport org.apache.spark.streaming.dstream.ReceiverInputDStream\nimport kafka.serializer.StringDecoder\nimport kafka.serializer.DefaultDecoder\nimport org.apache.spark.storage.StorageLevel\n\nval kcfg = Map(\"group.id\" -> \"notebook\", \"zookeeper.connect\" -> s\"${docker_ip}:2181\")\n\nval kafkaStream: ReceiverInputDStream[(String, Array[TPrice])] = \nKafkaUtils.createStream[String, Array[TPrice], StringDecoder, TPriceDecoder](ssc, kcfg, Map(\"ticks\" -> 1),\n                                                                    StorageLevel.MEMORY_AND_DISK_SER_2)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import com.impactopia.oanda.thrift._\nimport org.apache.spark.streaming.kafka._\nimport org.apache.spark.streaming.dstream.ReceiverInputDStream\nimport kafka.serializer.StringDecoder\nimport kafka.serializer.DefaultDecoder\nimport org.apache.spark.storage.StorageLevel\nkcfg: scala.collection.immutable.Map[String,String] = Map(group.id -> notebook, zookeeper.connect -> 192.168.59.103:2181)\nkafkaStream: org.apache.spark.streaming.dstream.ReceiverInputDStream[(String, Array[com.impactopia.oanda.thrift.TPrice])] = org.apache.spark.streaming.kafka.KafkaInputDStream@75cf6300\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.streaming.kafka.KafkaInputDStream@75cf6300"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "kafkaStream.foreachRDD { rdd => \n                        val first = rdd.take(1)\n                        result(\"\" + rdd.count + \" \" + first)\n                       }",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 9
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val result = out",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "result: notebook.front.SingleConnectedWidget[String]{implicit val codec: notebook.Codec[play.api.libs.json.JsValue,String]; lazy val toHtml: scala.xml.Elem} = <anon$1 widget>\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon5e371f7a2d308ac60b3c5ec93c65d49c&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\n            req(\n              ['observable', 'knockout'],\n              function (O, ko) {\n                ko.applyBindings({\n                    value: O.makeObservable(valueId)\n                  },\n                  this\n                );\n              }\n            );\n        /*]]>*/</script></p>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 8
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "ssc.start()",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 10
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import com.impactopia.oanda.entities._\nimport com.impactopia.oanda.thrift._\nimport org.joda.time.DateTime\nimport java.io.ByteArrayInputStream\nimport org.apache.thrift.transport._\nimport org.apache.thrift.protocol._\nimport TPriceImplicits._\n\n@transient val decodePrice: Array[Byte] => Price = data => {\n\n  import org.joda.time.DateTime\n  import java.io.ByteArrayInputStream\n  import org.apache.thrift.transport._\n  import org.apache.thrift.protocol._\n    \n  val is = new ByteArrayInputStream(data)\n  val tprotocol = new TBinaryProtocol(new TIOStreamTransport(is))\n  val price:Price = TPrice.decode(tprotocol)   \n  price\n    \n}\n\n//Price(tprice.instrument, new DateTime(tprice.timestamp), tprice.bid, tprice.ask) \n",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import com.impactopia.oanda.entities._\nimport com.impactopia.oanda.thrift._\nimport org.joda.time.DateTime\nimport java.io.ByteArrayInputStream\nimport org.apache.thrift.transport._\nimport org.apache.thrift.protocol._\nimport TPriceImplicits._\ndecodePrice: Array[Byte] => com.impactopia.oanda.entities.Price = <function1>\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "&lt;function1&gt;"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 15
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import _root_.kafka.serializer.Decoder\nimport kafka.utils.VerifiableProperties\nimport com.impactopia.oanda.entities.Price\nimport com.impactopia.oanda.thrift._\nimport java.io.ByteArrayInputStream\nimport org.apache.thrift.transport._\nimport org.apache.thrift.protocol._ \nimport TPriceImplicits._\n\nclass PriceDecoder(props: VerifiableProperties = null) extends Decoder[Price] {\n  def this() {\n      this(null)\n  }\n  def init(props: VerifiableProperties): Unit = ()\n  \n  def fromBytes(data: Array[Byte]): Price = {\n    val is = new ByteArrayInputStream(data)\n    val tprotocol = new TBinaryProtocol(new TIOStreamTransport(is))\n    val price: Price = TPrice.decode(tprotocol)\n    price\n  }\n}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import _root_.kafka.serializer.Decoder\nimport kafka.utils.VerifiableProperties\nimport com.impactopia.oanda.entities.Price\nimport com.impactopia.oanda.thrift._\nimport java.io.ByteArrayInputStream\nimport org.apache.thrift.transport._\nimport org.apache.thrift.protocol._\nimport TPriceImplicits._\ndefined class PriceDecoder\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "tPrices.foreachRDD { rdd =>\n                    result(rdd.count.toString)\n                   }",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 8
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "ssc.stop()",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "math.max(1.0,2)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res7: Double = 2.0\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "2.0"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 10
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val prod = new kafka.producer.KafkaProducer(\"ticks\", s\"192.168.59.103:9092\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "prod: kafka.producer.KafkaProducer = KafkaProducer(ticks,192.168.59.103:9092,98aa8973-287c-4601-8265-cd1cd3f36093,true,true,200,3,-1)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "KafkaProducer(ticks,192.168.59.103:9092,98aa8973-287c-4601-8265-cd1cd3f36093,true,true,200,3,-1)"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 10
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "prod.send(\"ddd\".getBytes, null)",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import com.impactopia.oanda.entities._\n                          import com.impactopia.oanda.thrift._\n                          import org.joda.time.DateTime\n                          import java.io.ByteArrayInputStream\n                          import org.apache.thrift.transport._\n                          import org.apache.thrift.protocol._  \nkafkaStream.foreachRDD {rdd =>\n                        val msg = rdd.first\n                        \n                          result(msg.toString)                                             \n                       }",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import com.impactopia.oanda.entities._\nimport com.impactopia.oanda.thrift._\nimport org.joda.time.DateTime\nimport java.io.ByteArrayInputStream\nimport org.apache.thrift.transport._\nimport org.apache.thrift.protocol._\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 10
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import com.impactopia.oanda.entities._\n                          import com.impactopia.oanda.thrift._\n                          import org.joda.time.DateTime\n                          import java.io.ByteArrayInputStream\n                          import org.apache.thrift.transport._\n                          import org.apache.thrift.protocol._  \nval tPrices = kafkaStream.map{ msg =>                        \n                          import com.impactopia.oanda.thrift._\n                                           \n                          @transient val is = new ByteArrayInputStream(msg._2.getBytes)\n                          @transient val tprotocol = new TBinaryProtocol(new TIOStreamTransport(is))\n                          @transient val tprice = TPrice.decode(tprotocol)   \n                                           \n                          tprice                                                    \n                           }",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "<console>:54: error: value getBytes is not a member of Array[Byte]\n                                 @transient val is = new ByteArrayInputStream(msg._2.getBytes)\n                                                                                     ^\n"
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val ssss = kafkaStream.map{ msg => msg._2}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "ssss: org.apache.spark.streaming.dstream.DStream[String] = org.apache.spark.streaming.dstream.MappedDStream@65bf6e59\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "org.apache.spark.streaming.dstream.MappedDStream@65bf6e59"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 8
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "ssss.foreachRDD{ rdd => \n                if (rdd.count > 0) {\n                      val is = new ByteArrayInputStream(rdd.first.getBytes)\n                      val tprotocol = new TBinaryProtocol(new TIOStreamTransport(is))\n                      val tprice = TPrice.decode(tprotocol)   \n                      result(rdd.count.toString + \" \" +  tprice)\n                }\n                      }",
+    "outputs" : [ {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 9
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import kafka.consumer._",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import kafka.consumer._\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "import com.impactopia.oanda.entities._\n                          import com.impactopia.oanda.thrift._\n                          import org.joda.time.DateTime\n                          import java.io.ByteArrayInputStream\n                          import org.apache.thrift.transport._\n                          import org.apache.thrift.protocol._ \nimport TPriceImplicits._\ndef writer(data: Array[Byte]): Unit = {\n\t\tval is = new ByteArrayInputStream(data)\n\t\tval tprotocol = new TBinaryProtocol(new TIOStreamTransport(is))\n\t\tval price: Price = TPrice.decode(tprotocol)\n\t\tprintln(price)\n\t} ",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import com.impactopia.oanda.entities._\nimport com.impactopia.oanda.thrift._\nimport org.joda.time.DateTime\nimport java.io.ByteArrayInputStream\nimport org.apache.thrift.transport._\nimport org.apache.thrift.protocol._\nimport TPriceImplicits._\nwriter: (data: Array[Byte])Unit\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "val cons = new KafkaConsumer(\"ticks\", \"ticksfeedReader\", \"192.168.59.103:2181\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "cons: kafka.consumer.KafkaConsumer = kafka.consumer.KafkaConsumer@21f6cb2f\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "kafka.consumer.KafkaConsumer@21f6cb2f"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 11
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "collapsed" : false
+    },
+    "cell_type" : "code",
+    "source" : "cons.read(writer)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "Price(EUR_USD,2015-02-26T12:23:55.874+01:00,1.13542,1.13557)\nPrice(EUR_USD,2015-02-26T12:24:12.767+01:00,1.13546,1.1356)\nPrice(EUR_USD,2015-02-26T12:24:16.935+01:00,1.13549,1.13563)\nPrice(EUR_USD,2015-02-26T12:24:22.050+01:00,1.13553,1.13565)\nPrice(EUR_USD,2015-02-26T12:24:22.214+01:00,1.13556,1.13569)\nPrice(EUR_USD,2015-02-26T12:24:22.870+01:00,1.13554,1.13567)\nPrice(EUR_USD,2015-02-26T12:24:24.483+01:00,1.13553,1.13568)\nPrice(EUR_USD,2015-02-26T12:24:25.034+01:00,1.13553,1.13567)\nPrice(EUR_USD,2015-02-26T12:24:26.357+01:00,1.13549,1.13563)\nPrice(EUR_USD,2015-02-26T12:24:28.513+01:00,1.13546,1.13559)\nPrice(EUR_USD,2015-02-26T12:24:29.099+01:00,1.13542,1.13555)\nPrice(EUR_USD,2015-02-26T12:24:33.622+01:00,1.13546,1.13559)\nPrice(EUR_USD,2015-02-26T12:24:34.218+01:00,1.13549,1.13563)\nPrice(EUR_USD,2015-02-26T12:24:42.030+01:00,1.13553,1.13566)\nPrice(EUR_USD,2015-02-26T12:24:44.130+01:00,1.13556,1.13569)\nPrice(EUR_USD,2015-02-26T12:24:47.006+01:00,1.13554,1.13567)\nPrice(EUR_USD,2015-02-26T12:24:47.115+01:00,1.1355,1.13563)\nPrice(EUR_USD,2015-02-26T12:24:50.093+01:00,1.13546,1.13559)\nPrice(EUR_USD,2015-02-26T12:24:56.714+01:00,1.13542,1.13556)\nPrice(EUR_USD,2015-02-26T12:24:57.764+01:00,1.13542,1.13557)\nPrice(EUR_USD,2015-02-26T12:24:57.984+01:00,1.13545,1.13558)\nPrice(EUR_USD,2015-02-26T12:25:04.214+01:00,1.13548,1.13562)\nPrice(EUR_USD,2015-02-26T12:25:16.012+01:00,1.13552,1.13565)\nPrice(EUR_USD,2015-02-26T12:25:19.581+01:00,1.13555,1.13569)\nPrice(EUR_USD,2015-02-26T12:25:19.780+01:00,1.13553,1.13567)\nPrice(EUR_USD,2015-02-26T12:25:19.822+01:00,1.13549,1.13564)\nPrice(EUR_USD,2015-02-26T12:25:27.123+01:00,1.13547,1.1356)\nPrice(EUR_USD,2015-02-26T12:25:27.299+01:00,1.13543,1.13556)\nPrice(EUR_USD,2015-02-26T12:25:27.455+01:00,1.13538,1.13554)\nPrice(EUR_USD,2015-02-26T12:25:29.876+01:00,1.13541,1.13554)\nPrice(EUR_USD,2015-02-26T12:25:43.194+01:00,1.13538,1.13551)\nPrice(EUR_USD,2015-02-26T12:25:59.259+01:00,1.13538,1.13552)\nPrice(EUR_USD,2015-02-26T12:26:33.915+01:00,1.13535,1.13549)\nPrice(EUR_USD,2015-02-26T12:26:33.966+01:00,1.13532,1.13546)\nPrice(EUR_USD,2015-02-26T12:26:34.068+01:00,1.13529,1.13543)\nPrice(EUR_USD,2015-02-26T12:27:01.379+01:00,1.1353,1.13543)\nPrice(EUR_USD,2015-02-26T12:27:01.413+01:00,1.13532,1.13545)\nPrice(EUR_USD,2015-02-26T12:27:01.432+01:00,1.13535,1.13549)\nPrice(EUR_USD,2015-02-26T12:27:01.582+01:00,1.13535,1.13548)\nPrice(EUR_USD,2015-02-26T12:27:03.223+01:00,1.13533,1.13548)\nPrice(EUR_USD,2015-02-26T12:27:04.828+01:00,1.13533,1.13547)\nPrice(EUR_USD,2015-02-26T12:27:12.362+01:00,1.13531,1.13544)\nPrice(EUR_USD,2015-02-26T12:27:16.511+01:00,1.13527,1.1354)\nPrice(EUR_USD,2015-02-26T12:27:16.573+01:00,1.13523,1.13537)\nPrice(EUR_USD,2015-02-26T12:27:20.025+01:00,1.13524,1.13537)\nPrice(EUR_USD,2015-02-26T12:27:20.139+01:00,1.13524,1.13538)\nPrice(EUR_USD,2015-02-26T12:27:24.288+01:00,1.13525,1.13538)\nPrice(EUR_USD,2015-02-26T12:27:31.127+01:00,1.13525,1.13542)\nPrice(EUR_USD,2015-02-26T12:27:31.225+01:00,1.13527,1.13543)\nPrice(EUR_USD,2015-02-26T12:27:31.452+01:00,1.13529,1.13543)\nPrice(EUR_USD,2015-02-26T12:27:39.272+01:00,1.13526,1.13539)\nPrice(EUR_USD,2015-02-26T12:27:41.639+01:00,1.13522,1.13535)\nPrice(EUR_USD,2015-02-26T12:27:41.710+01:00,1.13526,1.13539)\nPrice(EUR_USD,2015-02-26T12:27:54.515+01:00,1.13524,1.13539)\nPrice(EUR_USD,2015-02-26T12:28:32.267+01:00,1.13528,1.13541)\nPrice(EUR_USD,2015-02-26T12:28:34.014+01:00,1.13526,1.1354)\nPrice(EUR_USD,2015-02-26T12:28:34.034+01:00,1.13522,1.13537)\nPrice(EUR_USD,2015-02-26T12:28:37.559+01:00,1.13523,1.13536)\nPrice(EUR_USD,2015-02-26T12:28:40.819+01:00,1.13523,1.13537)\nPrice(EUR_USD,2015-02-26T12:28:41.827+01:00,1.13525,1.13538)\nPrice(EUR_USD,2015-02-26T12:28:44.037+01:00,1.13521,1.13536)\nPrice(EUR_USD,2015-02-26T12:28:44.589+01:00,1.13525,1.1354)\nPrice(EUR_USD,2015-02-26T12:29:04.428+01:00,1.13529,1.13542)\nPrice(EUR_USD,2015-02-26T12:29:04.610+01:00,1.13532,1.13546)\nPrice(EUR_USD,2015-02-26T12:29:06.051+01:00,1.13532,1.13544)\nPrice(EUR_USD,2015-02-26T12:29:06.235+01:00,1.1353,1.13543)\nPrice(EUR_USD,2015-02-26T12:29:06.278+01:00,1.13529,1.13543)\nPrice(EUR_USD,2015-02-26T12:29:06.320+01:00,1.13525,1.13539)\nPrice(EUR_USD,2015-02-26T12:29:06.533+01:00,1.13522,1.13536)\nPrice(EUR_USD,2015-02-26T12:29:09.520+01:00,1.13524,1.13538)\nPrice(EUR_USD,2015-02-26T12:29:09.612+01:00,1.13528,1.13542)\nPrice(EUR_USD,2015-02-26T12:29:23.642+01:00,1.13532,1.13546)\nPrice(EUR_USD,2015-02-26T12:29:23.719+01:00,1.13534,1.13551)\nPrice(EUR_USD,2015-02-26T12:29:23.773+01:00,1.13538,1.13555)\nPrice(EUR_USD,2015-02-26T12:29:24.628+01:00,1.13539,1.13553)\nPrice(EUR_USD,2015-02-26T12:29:25.362+01:00,1.13535,1.13549)\nPrice(EUR_USD,2015-02-26T12:29:26.541+01:00,1.13531,1.13546)\nPrice(EUR_USD,2015-02-26T12:29:27.765+01:00,1.13532,1.13546)\nPrice(EUR_USD,2015-02-26T12:29:36.338+01:00,1.13532,1.13547)\nPrice(EUR_USD,2015-02-26T12:29:36.485+01:00,1.13534,1.13547)\nPrice(EUR_USD,2015-02-26T12:29:49.932+01:00,1.13535,1.13547)\nPrice(EUR_USD,2015-02-26T12:30:08.165+01:00,1.13535,1.1355)\nPrice(EUR_USD,2015-02-26T12:30:08.542+01:00,1.1354,1.13553)\nPrice(EUR_USD,2015-02-26T12:30:11.596+01:00,1.13542,1.13557)\nPrice(EUR_USD,2015-02-26T12:30:11.640+01:00,1.13546,1.1356)\nPrice(EUR_USD,2015-02-26T12:30:11.801+01:00,1.13549,1.13563)\nPrice(EUR_USD,2015-02-26T12:30:14.913+01:00,1.13546,1.13558)\nPrice(EUR_USD,2015-02-26T12:30:18.537+01:00,1.13549,1.13563)\nPrice(EUR_USD,2015-02-26T12:30:21.259+01:00,1.13552,1.13566)\nPrice(EUR_USD,2015-02-26T12:30:27.059+01:00,1.13556,1.1357)\nPrice(EUR_USD,2015-02-26T12:30:27.151+01:00,1.13559,1.13574)\nPrice(EUR_USD,2015-02-26T12:30:27.316+01:00,1.13563,1.13577)\nPrice(EUR_USD,2015-02-26T12:30:31.520+01:00,1.13566,1.1358)\nPrice(EUR_USD,2015-02-26T12:30:31.793+01:00,1.13569,1.13583)\nPrice(EUR_USD,2015-02-26T12:30:31.918+01:00,1.13565,1.13579)\nPrice(EUR_USD,2015-02-26T12:30:32.954+01:00,1.1357,1.13582)\nPrice(EUR_USD,2015-02-26T12:30:34.792+01:00,1.13573,1.13586)\nPrice(EUR_USD,2015-02-26T12:30:42.128+01:00,1.13576,1.1359)\nPrice(EUR_USD,2015-02-26T12:30:42.528+01:00,1.13575,1.1359)\nPrice(EUR_USD,2015-02-26T12:30:44.407+01:00,1.13574,1.13586)\nPrice(EUR_USD,2015-02-26T12:30:44.645+01:00,1.13571,1.13585)\nPrice(EUR_USD,2015-02-26T12:30:44.737+01:00,1.13568,1.13583)\nPrice(EUR_USD,2015-02-26T12:30:44.749+01:00,1.13566,1.13582)\nPrice(EUR_USD,2015-02-26T12:30:44.820+01:00,1.13566,1.13581)\nPrice(EUR_USD,2015-02-26T12:30:44.895+01:00,1.13566,1.1358)\nPrice(EUR_USD,2015-02-26T12:30:44.919+01:00,1.13562,1.13576)\nPrice(EUR_USD,2015-02-26T12:30:45.062+01:00,1.13557,1.13574)\nPrice(EUR_USD,2015-02-26T12:30:53.018+01:00,1.13558,1.13573)\nPrice(EUR_USD,2015-02-26T12:30:53.067+01:00,1.1356,1.13575)\nPrice(EUR_USD,2015-02-26T12:30:53.091+01:00,1.1356,1.13576)\nPrice(EUR_USD,2015-02-26T12:31:01.663+01:00,1.13557,1.13571)\nPrice(EUR_USD,2015-02-26T12:31:10.272+01:00,1.13553,1.13568)\nPrice(EUR_USD,2015-02-26T12:31:11.031+01:00,1.1355,1.13564)\nPrice(EUR_USD,2015-02-26T12:31:13.247+01:00,1.13546,1.1356)\nPrice(EUR_USD,2015-02-26T12:31:13.753+01:00,1.13546,1.13561)\nPrice(EUR_USD,2015-02-26T12:31:13.860+01:00,1.13548,1.13562)\nPrice(EUR_USD,2015-02-26T12:31:27.546+01:00,1.13544,1.13559)\nPrice(EUR_USD,2015-02-26T12:31:38.389+01:00,1.13545,1.13559)\nPrice(EUR_USD,2015-02-26T12:31:46.349+01:00,1.13547,1.13559)\nPrice(EUR_USD,2015-02-26T12:31:54.458+01:00,1.13547,1.13561)\nPrice(EUR_USD,2015-02-26T12:32:02.344+01:00,1.13543,1.13557)\nPrice(EUR_USD,2015-02-26T12:32:02.428+01:00,1.13539,1.13554)\nPrice(EUR_USD,2015-02-26T12:32:02.700+01:00,1.13536,1.1355)\nPrice(EUR_USD,2015-02-26T12:32:25.801+01:00,1.13536,1.13551)\nPrice(EUR_USD,2015-02-26T12:32:31.735+01:00,1.13537,1.13551)\nPrice(EUR_USD,2015-02-26T12:33:16.491+01:00,1.13538,1.13551)\nPrice(EUR_USD,2015-02-26T12:33:26.614+01:00,1.13541,1.13555)\nPrice(EUR_USD,2015-02-26T12:33:26.727+01:00,1.13545,1.13559)\nPrice(EUR_USD,2015-02-26T12:34:51.321+01:00,1.13545,1.13558)\nPrice(EUR_USD,2015-02-26T12:34:52.889+01:00,1.13544,1.13558)\nPrice(EUR_USD,2015-02-26T12:34:52.953+01:00,1.13544,1.13557)\nPrice(EUR_USD,2015-02-26T12:34:56.918+01:00,1.13541,1.13554)\nPrice(EUR_USD,2015-02-26T12:35:07.343+01:00,1.13545,1.13558)\nPrice(EUR_USD,2015-02-26T12:35:22.827+01:00,1.13549,1.13562)\nPrice(EUR_USD,2015-02-26T12:36:16.622+01:00,1.13553,1.13566)\nPrice(EUR_USD,2015-02-26T12:36:16.832+01:00,1.13555,1.1357)\nPrice(EUR_USD,2015-02-26T12:36:20.517+01:00,1.13556,1.13569)\nPrice(EUR_USD,2015-02-26T12:36:20.517+01:00,1.13556,1.13569)\nPrice(EUR_USD,2015-02-26T12:36:22.530+01:00,1.1356,1.13573)\nPrice(EUR_USD,2015-02-26T14:15:18.376+01:00,1.1315,1.13164)\nPrice(EUR_USD,2015-02-26T14:15:25.796+01:00,1.13151,1.13164)\nPrice(EUR_USD,2015-02-26T14:15:29.519+01:00,1.13152,1.13166)\nPrice(EUR_USD,2015-02-26T14:15:30.637+01:00,1.13155,1.1317)\nPrice(EUR_USD,2015-02-26T14:15:30.818+01:00,1.13159,1.13173)\nPrice(EUR_USD,2015-02-26T14:15:35.924+01:00,1.13157,1.13172)\nPrice(EUR_USD,2015-02-26T14:15:38.416+01:00,1.13162,1.13175)\nPrice(EUR_USD,2015-02-26T14:15:38.532+01:00,1.13165,1.13179)\nPrice(EUR_USD,2015-02-26T14:15:41.181+01:00,1.13164,1.13179)\nPrice(EUR_USD,2015-02-26T14:15:42.411+01:00,1.13164,1.13178)\nPrice(EUR_USD,2015-02-26T14:15:44.720+01:00,1.13167,1.13181)\nPrice(EUR_USD,2015-02-26T14:15:46.953+01:00,1.13163,1.13177)\nPrice(EUR_USD,2015-02-26T14:15:52.152+01:00,1.13164,1.13177)\nPrice(EUR_USD,2015-02-26T14:15:52.306+01:00,1.13166,1.13179)\nPrice(EUR_USD,2015-02-26T14:15:53.036+01:00,1.1317,1.13183)\nPrice(EUR_USD,2015-02-26T14:15:58.102+01:00,1.13169,1.13181)\nPrice(EUR_USD,2015-02-26T14:15:58.122+01:00,1.13164,1.13178)\nPrice(EUR_USD,2015-02-26T14:15:58.618+01:00,1.1316,1.13174)\nPrice(EUR_USD,2015-02-26T14:15:59.411+01:00,1.13161,1.13174)\nPrice(EUR_USD,2015-02-26T14:16:00.045+01:00,1.13163,1.13176)\nPrice(EUR_USD,2015-02-26T14:16:05.420+01:00,1.1316,1.13173)\nPrice(EUR_USD,2015-02-26T14:16:06.413+01:00,1.13162,1.13175)\nPrice(EUR_USD,2015-02-26T14:16:06.596+01:00,1.13165,1.13179)\nPrice(EUR_USD,2015-02-26T14:16:06.620+01:00,1.13167,1.13186)\nPrice(EUR_USD,2015-02-26T14:16:06.766+01:00,1.13168,1.13185)\nPrice(EUR_USD,2015-02-26T14:16:06.877+01:00,1.13167,1.13183)\nPrice(EUR_USD,2015-02-26T14:16:06.922+01:00,1.1317,1.13186)\nPrice(EUR_USD,2015-02-26T14:16:06.941+01:00,1.13173,1.13189)\nPrice(EUR_USD,2015-02-26T14:16:07.031+01:00,1.13177,1.13193)\nPrice(EUR_USD,2015-02-26T14:16:07.186+01:00,1.13181,1.13196)\nPrice(EUR_USD,2015-02-26T14:16:07.230+01:00,1.13181,1.13195)\nPrice(EUR_USD,2015-02-26T14:16:11.416+01:00,1.13181,1.13194)\nPrice(EUR_USD,2015-02-26T14:16:11.447+01:00,1.13176,1.13192)\nPrice(EUR_USD,2015-02-26T14:16:11.524+01:00,1.13176,1.13191)\nPrice(EUR_USD,2015-02-26T14:16:11.722+01:00,1.13175,1.13188)\nPrice(EUR_USD,2015-02-26T14:16:12.527+01:00,1.13177,1.13192)\nPrice(EUR_USD,2015-02-26T14:16:13.031+01:00,1.13177,1.13191)\nPrice(EUR_USD,2015-02-26T14:16:13.069+01:00,1.13173,1.13187)\nPrice(EUR_USD,2015-02-26T14:16:13.214+01:00,1.13169,1.13183)\nPrice(EUR_USD,2015-02-26T14:16:13.570+01:00,1.13165,1.13179)\nPrice(EUR_USD,2015-02-26T14:16:13.827+01:00,1.13161,1.13176)\nPrice(EUR_USD,2015-02-26T14:16:13.990+01:00,1.13158,1.13172)\nPrice(EUR_USD,2015-02-26T14:16:17.042+01:00,1.13155,1.13168)\nPrice(EUR_USD,2015-02-26T14:16:18.942+01:00,1.13151,1.13165)\nPrice(EUR_USD,2015-02-26T14:16:19.045+01:00,1.13147,1.13162)\nPrice(EUR_USD,2015-02-26T14:16:19.731+01:00,1.13148,1.13162)\nPrice(EUR_USD,2015-02-26T14:16:19.736+01:00,1.13152,1.13166)\nPrice(EUR_USD,2015-02-26T14:16:19.858+01:00,1.13155,1.1317)\nPrice(EUR_USD,2015-02-26T14:16:22.174+01:00,1.13152,1.13166)\nPrice(EUR_USD,2015-02-26T14:16:25.681+01:00,1.13149,1.13163)\nPrice(EUR_USD,2015-02-26T14:16:30.029+01:00,1.13146,1.13159)\nPrice(EUR_USD,2015-02-26T14:16:32.018+01:00,1.13141,1.13156)\nPrice(EUR_USD,2015-02-26T14:16:32.076+01:00,1.13135,1.13153)\nPrice(EUR_USD,2015-02-26T14:16:32.628+01:00,1.13133,1.13148)\nPrice(EUR_USD,2015-02-26T14:16:32.650+01:00,1.13133,1.13149)\nPrice(EUR_USD,2015-02-26T14:16:32.707+01:00,1.13134,1.13149)\nPrice(EUR_USD,2015-02-26T14:16:32.965+01:00,1.13138,1.13153)\nPrice(EUR_USD,2015-02-26T14:16:38.890+01:00,1.13141,1.13156)\nPrice(EUR_USD,2015-02-26T14:16:39.144+01:00,1.13143,1.1316)\nPrice(EUR_USD,2015-02-26T14:16:41.016+01:00,1.13148,1.13162)\nPrice(EUR_USD,2015-02-26T14:16:45.274+01:00,1.13152,1.13166)\nPrice(EUR_USD,2015-02-26T14:16:45.363+01:00,1.13155,1.1317)\nPrice(EUR_USD,2015-02-26T14:16:45.830+01:00,1.13153,1.13168)\nPrice(EUR_USD,2015-02-26T14:16:45.881+01:00,1.13149,1.13165)\nPrice(EUR_USD,2015-02-26T14:16:51.218+01:00,1.1315,1.13164)\nPrice(EUR_USD,2015-02-26T14:16:51.411+01:00,1.13152,1.13166)\nPrice(EUR_USD,2015-02-26T14:16:52.373+01:00,1.13156,1.1317)\nPrice(EUR_USD,2015-02-26T14:16:56.859+01:00,1.13159,1.13173)\nPrice(EUR_USD,2015-02-26T14:16:59.956+01:00,1.13163,1.13177)\nPrice(EUR_USD,2015-02-26T14:17:01.018+01:00,1.13156,1.13175)\nPrice(EUR_USD,2015-02-26T14:17:01.231+01:00,1.13157,1.13175)\nPrice(EUR_USD,2015-02-26T14:17:01.339+01:00,1.13158,1.13175)\nPrice(EUR_USD,2015-02-26T14:17:02.200+01:00,1.1316,1.13173)\nPrice(EUR_USD,2015-02-26T14:17:09.307+01:00,1.1316,1.13174)\nPrice(EUR_USD,2015-02-26T14:17:09.634+01:00,1.13161,1.13174)\nPrice(EUR_USD,2015-02-26T14:17:20.210+01:00,1.13161,1.13175)\nPrice(EUR_USD,2015-02-26T14:17:21.849+01:00,1.13165,1.13179)\nPrice(EUR_USD,2015-02-26T14:17:22.521+01:00,1.13168,1.13183)\nPrice(EUR_USD,2015-02-26T14:17:22.636+01:00,1.13172,1.13186)\nPrice(EUR_USD,2015-02-26T14:17:27.535+01:00,1.13171,1.13186)\nPrice(EUR_USD,2015-02-26T14:17:27.619+01:00,1.13167,1.13182)\nPrice(EUR_USD,2015-02-26T14:17:29.317+01:00,1.13164,1.13178)\nPrice(EUR_USD,2015-02-26T14:17:29.531+01:00,1.1316,1.13174)\nPrice(EUR_USD,2015-02-26T14:17:32.682+01:00,1.13157,1.1317)\nPrice(EUR_USD,2015-02-26T14:17:32.815+01:00,1.13152,1.13168)\nPrice(EUR_USD,2015-02-26T14:17:36.100+01:00,1.13149,1.13164)\nPrice(EUR_USD,2015-02-26T14:17:36.130+01:00,1.13145,1.13162)\nPrice(EUR_USD,2015-02-26T14:17:38.663+01:00,1.13143,1.13156)\nPrice(EUR_USD,2015-02-26T14:17:39.121+01:00,1.13139,1.13153)\nPrice(EUR_USD,2015-02-26T14:17:40.416+01:00,1.13141,1.13155)\nPrice(EUR_USD,2015-02-26T14:17:41.454+01:00,1.13145,1.13158)\nPrice(EUR_USD,2015-02-26T14:17:43.326+01:00,1.13144,1.13158)\nPrice(EUR_USD,2015-02-26T14:17:43.814+01:00,1.13142,1.13156)\nPrice(EUR_USD,2015-02-26T14:17:43.866+01:00,1.13138,1.13153)\nPrice(EUR_USD,2015-02-26T14:17:45.085+01:00,1.13139,1.13152)\nPrice(EUR_USD,2015-02-26T14:17:48.327+01:00,1.1314,1.13155)\nPrice(EUR_USD,2015-02-26T14:17:48.666+01:00,1.13142,1.13157)\nPrice(EUR_USD,2015-02-26T14:17:49.807+01:00,1.13139,1.13153)\nPrice(EUR_USD,2015-02-26T14:17:49.842+01:00,1.13133,1.13152)\nPrice(EUR_USD,2015-02-26T14:17:49.964+01:00,1.1313,1.13147)\nPrice(EUR_USD,2015-02-26T14:17:50.892+01:00,1.13128,1.13142)\nPrice(EUR_USD,2015-02-26T14:17:50.997+01:00,1.13132,1.13146)\nPrice(EUR_USD,2015-02-26T14:17:54.529+01:00,1.13136,1.1315)\nPrice(EUR_USD,2015-02-26T14:17:54.793+01:00,1.13138,1.13154)\nPrice(EUR_USD,2015-02-26T14:17:55.196+01:00,1.13139,1.13153)\nPrice(EUR_USD,2015-02-26T14:17:56.619+01:00,1.13137,1.13152)\nPrice(EUR_USD,2015-02-26T14:17:56.700+01:00,1.13134,1.13148)\nPrice(EUR_USD,2015-02-26T14:17:58.089+01:00,1.13137,1.13152)\nPrice(EUR_USD,2015-02-26T14:17:58.646+01:00,1.1314,1.13157)\nPrice(EUR_USD,2015-02-26T14:17:58.726+01:00,1.13143,1.13163)\nPrice(EUR_USD,2015-02-26T14:17:58.830+01:00,1.13148,1.13167)\nPrice(EUR_USD,2015-02-26T14:17:59.086+01:00,1.13153,1.1317)\nPrice(EUR_USD,2015-02-26T14:17:59.319+01:00,1.13158,1.13173)\nPrice(EUR_USD,2015-02-26T14:17:59.514+01:00,1.13153,1.1317)\nPrice(EUR_USD,2015-02-26T14:18:00.142+01:00,1.13158,1.13173)\nPrice(EUR_USD,2015-02-26T14:18:00.517+01:00,1.13161,1.13176)\nPrice(EUR_USD,2015-02-26T14:18:00.631+01:00,1.13163,1.13181)\nPrice(EUR_USD,2015-02-26T14:18:00.973+01:00,1.13165,1.13179)\nPrice(EUR_USD,2015-02-26T14:18:01.096+01:00,1.13163,1.13177)\nPrice(EUR_USD,2015-02-26T14:18:01.534+01:00,1.13158,1.13174)\nPrice(EUR_USD,2015-02-26T14:18:01.622+01:00,1.13154,1.1317)\nPrice(EUR_USD,2015-02-26T14:18:01.731+01:00,1.13155,1.1317)\nPrice(EUR_USD,2015-02-26T14:18:02.046+01:00,1.13158,1.13172)\nPrice(EUR_USD,2015-02-26T14:18:08.789+01:00,1.13153,1.13171)\nPrice(EUR_USD,2015-02-26T14:18:08.926+01:00,1.1315,1.13167)\nPrice(EUR_USD,2015-02-26T14:18:09.897+01:00,1.13149,1.13161)\nPrice(EUR_USD,2015-02-26T14:18:10.107+01:00,1.13148,1.13163)\nPrice(EUR_USD,2015-02-26T14:18:10.422+01:00,1.13149,1.13163)\nPrice(EUR_USD,2015-02-26T14:18:12.522+01:00,1.1315,1.13165)\nPrice(EUR_USD,2015-02-26T14:18:38.697+01:00,1.13147,1.13161)\nPrice(EUR_USD,2015-02-26T14:18:43.353+01:00,1.13143,1.13157)\nPrice(EUR_USD,2015-02-26T14:18:43.557+01:00,1.13143,1.13158)\nPrice(EUR_USD,2015-02-26T14:18:43.575+01:00,1.13144,1.13158)\nPrice(EUR_USD,2015-02-26T14:18:45.313+01:00,1.13146,1.13158)\nPrice(EUR_USD,2015-02-26T14:18:47.615+01:00,1.13142,1.13156)\nPrice(EUR_USD,2015-02-26T14:18:47.990+01:00,1.13145,1.13158)\nPrice(EUR_USD,2015-02-26T14:18:53.068+01:00,1.13142,1.13155)\nPrice(EUR_USD,2015-02-26T14:18:53.449+01:00,1.13139,1.13152)\nPrice(EUR_USD,2015-02-26T14:18:56.103+01:00,1.13141,1.13155)\nPrice(EUR_USD,2015-02-26T14:19:00.278+01:00,1.13145,1.13158)\nPrice(EUR_USD,2015-02-26T14:19:00.358+01:00,1.13148,1.13162)\nPrice(EUR_USD,2015-02-26T14:19:04.128+01:00,1.13147,1.1316)\nPrice(EUR_USD,2015-02-26T14:19:04.231+01:00,1.13143,1.13157)\nPrice(EUR_USD,2015-02-26T14:19:04.801+01:00,1.13144,1.13157)\nPrice(EUR_USD,2015-02-26T14:19:06.313+01:00,1.13144,1.13158)\nPrice(EUR_USD,2015-02-26T14:19:06.426+01:00,1.13147,1.1316)\nPrice(EUR_USD,2015-02-26T14:19:06.634+01:00,1.13146,1.13161)\nPrice(EUR_USD,2015-02-26T14:19:08.392+01:00,1.13148,1.13163)\nPrice(EUR_USD,2015-02-26T14:19:08.426+01:00,1.13152,1.13167)\nPrice(EUR_USD,2015-02-26T14:19:08.705+01:00,1.13155,1.13171)\nPrice(EUR_USD,2015-02-26T14:19:08.935+01:00,1.13159,1.13173)\nPrice(EUR_USD,2015-02-26T14:19:09.246+01:00,1.13157,1.13171)\nPrice(EUR_USD,2015-02-26T14:19:09.317+01:00,1.13154,1.13167)\nPrice(EUR_USD,2015-02-26T14:19:09.657+01:00,1.13154,1.13168)\nPrice(EUR_USD,2015-02-26T14:19:10.961+01:00,1.13155,1.13168)\nPrice(EUR_USD,2015-02-26T14:19:15.527+01:00,1.13159,1.13172)\nPrice(EUR_USD,2015-02-26T14:19:16.323+01:00,1.13162,1.13176)\nPrice(EUR_USD,2015-02-26T14:19:18.021+01:00,1.13166,1.1318)\nPrice(EUR_USD,2015-02-26T14:19:19.726+01:00,1.13164,1.13177)\nPrice(EUR_USD,2015-02-26T14:19:20.617+01:00,1.1316,1.13174)\nPrice(EUR_USD,2015-02-26T14:19:20.633+01:00,1.13156,1.13171)\nPrice(EUR_USD,2015-02-26T14:19:20.719+01:00,1.13149,1.13169)\nPrice(EUR_USD,2015-02-26T14:19:20.781+01:00,1.13145,1.13164)\nPrice(EUR_USD,2015-02-26T14:19:23.895+01:00,1.13145,1.13158)\nPrice(EUR_USD,2015-02-26T14:19:24.049+01:00,1.13141,1.13155)\nPrice(EUR_USD,2015-02-26T14:19:31.450+01:00,1.13138,1.13152)\nPrice(EUR_USD,2015-02-26T14:19:37.930+01:00,1.13142,1.13156)\nPrice(EUR_USD,2015-02-26T14:19:38.129+01:00,1.13145,1.13159)\nPrice(EUR_USD,2015-02-26T14:19:50.917+01:00,1.13145,1.13158)\nPrice(EUR_USD,2015-02-26T14:19:52.314+01:00,1.13149,1.13162)\nPrice(EUR_USD,2015-02-26T14:19:55.417+01:00,1.13148,1.13162)\nPrice(EUR_USD,2015-02-26T14:20:00.244+01:00,1.13151,1.13166)\nPrice(EUR_USD,2015-02-26T14:20:00.511+01:00,1.13155,1.13169)\nPrice(EUR_USD,2015-02-26T14:20:00.841+01:00,1.13159,1.13173)\nPrice(EUR_USD,2015-02-26T14:20:04.431+01:00,1.13158,1.13173)\nPrice(EUR_USD,2015-02-26T14:20:04.518+01:00,1.13156,1.1317)\nPrice(EUR_USD,2015-02-26T14:20:04.541+01:00,1.13152,1.13166)\nPrice(EUR_USD,2015-02-26T14:20:04.834+01:00,1.13154,1.13167)\nPrice(EUR_USD,2015-02-26T14:20:05.220+01:00,1.13156,1.13169)\nPrice(EUR_USD,2015-02-26T14:20:07.325+01:00,1.13152,1.13166)\nPrice(EUR_USD,2015-02-26T14:20:10.881+01:00,1.13149,1.13163)\nPrice(EUR_USD,2015-02-26T14:20:15.141+01:00,1.13145,1.13159)\nPrice(EUR_USD,2015-02-26T14:20:16.017+01:00,1.13147,1.1316)\nPrice(EUR_USD,2015-02-26T14:20:16.181+01:00,1.1315,1.13165)\nPrice(EUR_USD,2015-02-26T14:20:17.275+01:00,1.1315,1.13164)\nPrice(EUR_USD,2015-02-26T14:20:31.951+01:00,1.1315,1.13163)\nPrice(EUR_USD,2015-02-26T14:20:45.821+01:00,1.13148,1.13162)\nPrice(EUR_USD,2015-02-26T14:20:47.799+01:00,1.13148,1.13161)\nPrice(EUR_USD,2015-02-26T14:20:49.351+01:00,1.13147,1.13161)\nPrice(EUR_USD,2015-02-26T14:20:49.417+01:00,1.13144,1.13159)\nPrice(EUR_USD,2015-02-26T14:20:49.464+01:00,1.13141,1.13155)\nPrice(EUR_USD,2015-02-26T14:21:01.560+01:00,1.13138,1.13152)\nPrice(EUR_USD,2015-02-26T14:21:02.729+01:00,1.13134,1.13149)\nPrice(EUR_USD,2015-02-26T14:21:02.829+01:00,1.1313,1.13147)\nPrice(EUR_USD,2015-02-26T14:21:04.433+01:00,1.13132,1.13147)\nPrice(EUR_USD,2015-02-26T14:21:04.497+01:00,1.13134,1.13149)\nPrice(EUR_USD,2015-02-26T14:21:04.621+01:00,1.13135,1.13149)\nPrice(EUR_USD,2015-02-26T14:21:05.725+01:00,1.13137,1.13149)\nPrice(EUR_USD,2015-02-26T14:21:06.219+01:00,1.13136,1.1315)\nPrice(EUR_USD,2015-02-26T14:21:06.227+01:00,1.13137,1.1315)\nPrice(EUR_USD,2015-02-26T14:21:08.396+01:00,1.13138,1.13152)\nPrice(EUR_USD,2015-02-26T14:21:08.531+01:00,1.1314,1.13153)\nPrice(EUR_USD,2015-02-26T14:21:09.415+01:00,1.13142,1.13155)\nPrice(EUR_USD,2015-02-26T14:21:19.118+01:00,1.13139,1.13152)\nPrice(EUR_USD,2015-02-26T14:21:19.813+01:00,1.13139,1.13154)\nPrice(EUR_USD,2015-02-26T14:21:21.645+01:00,1.13141,1.13154)\nPrice(EUR_USD,2015-02-26T14:21:33.747+01:00,1.13144,1.13158)\nPrice(EUR_USD,2015-02-26T14:21:33.889+01:00,1.13147,1.13162)\nPrice(EUR_USD,2015-02-26T14:21:35.436+01:00,1.1315,1.13166)\nPrice(EUR_USD,2015-02-26T14:21:37.178+01:00,1.13151,1.13165)\nPrice(EUR_USD,2015-02-26T14:21:38.857+01:00,1.13149,1.13165)\nPrice(EUR_USD,2015-02-26T14:21:39.614+01:00,1.13149,1.13164)\nPrice(EUR_USD,2015-02-26T14:21:39.820+01:00,1.13149,1.13163)\nPrice(EUR_USD,2015-02-26T14:21:42.255+01:00,1.13147,1.13162)\nPrice(EUR_USD,2015-02-26T14:21:43.495+01:00,1.13148,1.13161)\nPrice(EUR_USD,2015-02-26T14:21:43.563+01:00,1.13142,1.13155)\nPrice(EUR_USD,2015-02-26T14:21:46.774+01:00,1.13139,1.13152)\nPrice(EUR_USD,2015-02-26T14:21:46.820+01:00,1.13133,1.13151)\nPrice(EUR_USD,2015-02-26T14:21:47.645+01:00,1.13135,1.13149)\nPrice(EUR_USD,2015-02-26T14:21:48.800+01:00,1.13137,1.1315)\nPrice(EUR_USD,2015-02-26T14:21:52.033+01:00,1.1314,1.13154)\nPrice(EUR_USD,2015-02-26T14:21:53.939+01:00,1.1314,1.13153)\nPrice(EUR_USD,2015-02-26T14:22:00.099+01:00,1.13139,1.13153)\nPrice(EUR_USD,2015-02-26T14:22:03.062+01:00,1.13137,1.13154)\nPrice(EUR_USD,2015-02-26T14:22:03.070+01:00,1.13132,1.13149)\nPrice(EUR_USD,2015-02-26T14:22:03.111+01:00,1.13116,1.13148)\nPrice(EUR_USD,2015-02-26T14:22:03.144+01:00,1.1311,1.13141)\nPrice(EUR_USD,2015-02-26T14:22:03.173+01:00,1.13104,1.13135)\nPrice(EUR_USD,2015-02-26T14:22:03.338+01:00,1.13099,1.13128)\nPrice(EUR_USD,2015-02-26T14:22:03.710+01:00,1.13096,1.13122)\nPrice(EUR_USD,2015-02-26T14:22:03.826+01:00,1.13096,1.1312)\nPrice(EUR_USD,2015-02-26T14:22:03.843+01:00,1.13098,1.13122)\nPrice(EUR_USD,2015-02-26T14:22:04.001+01:00,1.13101,1.13124)\nPrice(EUR_USD,2015-02-26T14:22:04.122+01:00,1.13103,1.13124)\nPrice(EUR_USD,2015-02-26T14:22:04.222+01:00,1.13104,1.13124)\nPrice(EUR_USD,2015-02-26T14:22:04.346+01:00,1.13105,1.13124)\nPrice(EUR_USD,2015-02-26T14:22:05.637+01:00,1.13108,1.13122)\nPrice(EUR_USD,2015-02-26T14:22:05.934+01:00,1.1311,1.13124)\nPrice(EUR_USD,2015-02-26T14:22:06.464+01:00,1.13114,1.13127)\nPrice(EUR_USD,2015-02-26T14:22:07.894+01:00,1.13115,1.13132)\nPrice(EUR_USD,2015-02-26T14:22:08.028+01:00,1.13119,1.13135)\nPrice(EUR_USD,2015-02-26T14:22:08.415+01:00,1.13123,1.13138)\nPrice(EUR_USD,2015-02-26T14:22:08.821+01:00,1.13123,1.13137)\nPrice(EUR_USD,2015-02-26T14:22:09.356+01:00,1.13122,1.13137)\nPrice(EUR_USD,2015-02-26T14:22:09.571+01:00,1.13122,1.13136)\nPrice(EUR_USD,2015-02-26T14:22:11.718+01:00,1.1312,1.13136)\nPrice(EUR_USD,2015-02-26T14:22:11.742+01:00,1.13117,1.13133)\nPrice(EUR_USD,2015-02-26T14:22:11.817+01:00,1.13115,1.13131)\nPrice(EUR_USD,2015-02-26T14:22:12.429+01:00,1.13112,1.13126)\nPrice(EUR_USD,2015-02-26T14:22:15.282+01:00,1.13114,1.13128)\nPrice(EUR_USD,2015-02-26T14:22:15.395+01:00,1.13118,1.13132)\nPrice(EUR_USD,2015-02-26T14:22:17.283+01:00,1.13121,1.13137)\nPrice(EUR_USD,2015-02-26T14:22:17.520+01:00,1.13122,1.13138)\nPrice(EUR_USD,2015-02-26T14:22:26.921+01:00,1.13123,1.13136)\nPrice(EUR_USD,2015-02-26T14:22:26.992+01:00,1.13121,1.13136)\nPrice(EUR_USD,2015-02-26T14:22:34.271+01:00,1.13122,1.13134)\nPrice(EUR_USD,2015-02-26T14:22:40.722+01:00,1.13125,1.13138)\nPrice(EUR_USD,2015-02-26T14:22:41.069+01:00,1.13128,1.13142)\nPrice(EUR_USD,2015-02-26T14:22:42.329+01:00,1.13132,1.13145)\nPrice(EUR_USD,2015-02-26T14:22:56.018+01:00,1.13136,1.13149)\nPrice(EUR_USD,2015-02-26T14:22:56.039+01:00,1.13139,1.13155)\nPrice(EUR_USD,2015-02-26T14:22:56.141+01:00,1.13142,1.13162)\nPrice(EUR_USD,2015-02-26T14:22:56.204+01:00,1.13147,1.13167)\nPrice(EUR_USD,2015-02-26T14:22:56.252+01:00,1.13154,1.13173)\nPrice(EUR_USD,2015-02-26T14:22:56.394+01:00,1.13159,1.13177)\nPrice(EUR_USD,2015-02-26T14:22:56.577+01:00,1.13163,1.13182)\nPrice(EUR_USD,2015-02-26T14:22:56.788+01:00,1.13166,1.13185)\nPrice(EUR_USD,2015-02-26T14:22:57.012+01:00,1.13167,1.13184)\nPrice(EUR_USD,2015-02-26T14:22:57.035+01:00,1.13167,1.13183)\nPrice(EUR_USD,2015-02-26T14:22:58.045+01:00,1.13167,1.13181)\nPrice(EUR_USD,2015-02-26T14:22:58.108+01:00,1.13164,1.13177)"
+    } ]
+  } ],
+  "nbformat" : 4
+}

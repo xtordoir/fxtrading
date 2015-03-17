@@ -71,7 +71,9 @@ case class StreamingActor(accountId: Int, instruments: List[String], configFile:
 		context.parent ! FailedStreaming
 
       case Http.Connected(_, _) =>
-        println("Connected to streaming url")
+        println("Connected to streaming url:")
+        val url = "/v1/prices?accountId=" + accountId + "&instruments=" + instruments.mkString("%2C")
+        println(url)
         sender ! HttpRequest(GET, "/v1/prices?accountId=" + accountId + "&instruments=" + instruments.mkString("%2C")) ~> addHeader("Authorization", "Bearer " + accessToken)
 
       case ChunkedResponseStart(res) =>

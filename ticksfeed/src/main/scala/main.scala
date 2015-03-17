@@ -91,8 +91,9 @@ object Main extends App {
   import system.dispatcher
 
   val configFile: String = System.getProperty("user.home") + "/.oandaapi/oandaapi.conf"
-
-  val streamActor = system.actorOf(Props(new StreamingManager2(8477964, List("EUR_USD"), configFile)), name = "streamer")
+  val instruments = (scala.util.Try { args(0) } getOrElse { "EUR_USD" }).split(",").toList
+  println(s"Listening to $instruments")
+  val streamActor = system.actorOf(Props(new StreamingManager2(8477964, instruments, configFile)), name = "streamer")
 }
 /*
 object MainNoKafka extends App {
