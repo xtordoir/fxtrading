@@ -1,4 +1,4 @@
-## Oanda streaming throught kafka demo, consumed by Spark
+## Oanda streaming through kafka: demo of stream consumed by SparkNotebook
 
 To run, follow instructions:
 
