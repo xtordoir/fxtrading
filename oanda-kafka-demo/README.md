@@ -47,7 +47,7 @@ docker run -t -i -e "KAFKA_IP=$KAFKA_IP" -e "INSTRUMENTS=EUR_USD" xtordoir/ticks
 
 ### The notebook is then available for playing
 
-It has one dependency: ```fx-thrift-kafka``` to be installed:
+It has dependencies: ```fx-thrift-kafka``` and ```oanda``` to be installed in m2:
 
 ```
 cd ..
