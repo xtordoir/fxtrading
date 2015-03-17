@@ -37,12 +37,12 @@ docker build -t xtordoir/ticksfeeder .
 
 ### Run the ticksfeeder
 
-Export the ```KAFKA_IP``` and run the container (only EUR_USD here):
+Export the ```KAFKA_IP``` variable and run the container (EUR_USD and GBP_USD here):
 
 ```
 #export KAFKA_IP=`boot2docker ip`
 export KAFKA_IP=localhost
-docker run -t -i -e "KAFKA_IP=$KAFKA_IP" -e "INSTRUMENTS=EUR_USD" xtordoir/ticksfeeder:latest
+docker run -t -i -e "KAFKA_IP=$KAFKA_IP" -e "INSTRUMENTS=EUR_USD,GBP_USD" xtordoir/ticksfeeder:latest
 ```
 
 ### The notebook is then available for playing
