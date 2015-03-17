@@ -52,4 +52,5 @@ It has one dependency: ```fx-thrift-kafka``` to be installed:
 ```
 cd ..
 sbt fxthriftkafka/publish
+sbt soanda/publish
 ```

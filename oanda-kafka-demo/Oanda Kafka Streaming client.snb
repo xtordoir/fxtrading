@@ -59,11 +59,11 @@
       "collapsed" : false
     },
     "cell_type" : "code",
-    "source" : ":dp org.apache.spark % spark-streaming_2.10 % 1.2.0\n+   org.apache.spark % spark-streaming-kafka_2.10 % 1.2.0\n+   com.impactopia   % fx-thrift_2.10 % 0.0.1-SNAPSHOT      \n- org.apache.hadoop % hadoop-client %   _\n- org.apache.spark  % spark-core    %   _\n- org.scala-lang    %     _         %   _\n- org.scoverage     %     _         %   _",
+    "source" : ":dp org.apache.spark % spark-streaming_2.10 % 1.2.0\n+   org.apache.spark % spark-streaming-kafka_2.10 % 1.2.0\n+   com.impactopia   % fx-thrift_2.10 % 0.0.2-SNAPSHOT      \n+   com.impactopia   % oanda_2.10     % 0.0.1-SNAPSHOT      \n- org.apache.hadoop % hadoop-client %   _\n- org.apache.spark  % spark-core    %   _\n- org.scala-lang    %     _         %   _\n- org.scoverage     %     _         %   _",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "jars: Array[String] = [Ljava.lang.String;@60802f64\nres3: List[String] = List(/tmp/spark-notebook/repo/org/apache/curator/curator-recipes/2.4.0/curator-recipes-2.4.0.jar, /tmp/spark-notebook/repo/commons-io/commons-io/2.4/commons-io-2.4.jar, /tmp/spark-notebook/repo/org/spark-project/spark/unused/1.0.0/unused-1.0.0.jar, /tmp/spark-notebook/repo/net/jpountz/lz4/lz4/1.2.0/lz4-1.2.0.jar, /tmp/spark-notebook/repo/org/xerial/snappy/snappy-java/1.1.1.6/snappy-java-1.1.1.6.jar, /tmp/spark-notebook/repo/commons-net/commons-net/2.2/commons-net-2.2.jar, /tmp/spark-notebook/repo/org/json4s/json4s-jackson_2.10/3.2.10/json4s-jackson_2.10-3.2.10.jar, /tmp/spark-notebook/repo/org/json4s/json4s-ast_2.10/3.2.10/json4s-ast_2.10-3.2.10.jar, /tmp/spark-notebook/repo/org/apache/mesos/mesos/0.18.1/mesos-0.18...."
+      "text" : "jars: Array[String] = [Ljava.lang.String;@7cae3491\nres3: List[String] = List(/tmp/spark-notebook/repo/org/apache/curator/curator-recipes/2.4.0/curator-recipes-2.4.0.jar, /tmp/spark-notebook/repo/commons-io/commons-io/2.4/commons-io-2.4.jar, /tmp/spark-notebook/repo/org/spark-project/spark/unused/1.0.0/unused-1.0.0.jar, /tmp/spark-notebook/repo/net/jpountz/lz4/lz4/1.2.0/lz4-1.2.0.jar, /tmp/spark-notebook/repo/org/xerial/snappy/snappy-java/1.1.1.6/snappy-java-1.1.1.6.jar, /tmp/spark-notebook/repo/commons-net/commons-net/2.2/commons-net-2.2.jar, /tmp/spark-notebook/repo/org/json4s/json4s-jackson_2.10/3.2.10/json4s-jackson_2.10-3.2.10.jar, /tmp/spark-notebook/repo/org/json4s/json4s-ast_2.10/3.2.10/json4s-ast_2.10-3.2.10.jar, /tmp/spark-notebook/repo/org/apache/mesos/mesos/0.18.1/mesos-0.18...."
     }, {
       "metadata" : { },
       "data" : {
@@ -82,11 +82,11 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "import org.apache.spark.streaming.{StreamingContext, Duration}\nssc: org.apache.spark.streaming.StreamingContext = org.apache.spark.streaming.StreamingContext@37cc20a7\n"
+      "text" : "import org.apache.spark.streaming.{StreamingContext, Duration}\nssc: org.apache.spark.streaming.StreamingContext = org.apache.spark.streaming.StreamingContext@303fad82\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "org.apache.spark.streaming.StreamingContext@37cc20a7"
+        "text/html" : "org.apache.spark.streaming.StreamingContext@303fad82"
       },
       "output_type" : "execute_result",
       "execution_count" : 4
@@ -116,15 +116,15 @@
       "collapsed" : false
     },
     "cell_type" : "code",
-    "source" : "import com.impactopia.oanda.thrift._\nimport org.apache.spark.streaming.kafka._\nimport org.apache.spark.streaming.dstream.ReceiverInputDStream\nimport kafka.serializer.StringDecoder\nimport kafka.serializer.DefaultDecoder\nimport org.apache.spark.storage.StorageLevel\n\nval kcfg = Map(\"group.id\" -> \"notebook\", \"zookeeper.connect\" -> s\"${docker_ip}:2181\")\n\nval kafkaStream: ReceiverInputDStream[(String, Array[TPrice])] = \nKafkaUtils.createStream[String, Array[TPrice], StringDecoder, TPriceDecoder](ssc, kcfg, Map(\"ticks\" -> 1),\n                                                                    StorageLevel.MEMORY_AND_DISK_SER_2)",
+    "source" : "import com.impactopia.oanda.thrift.PriceDecoder\nimport com.impactopia.oanda.thrift._\nimport com.impactopia.oanda.entities._\nimport org.apache.spark.streaming.kafka._\nimport org.apache.spark.streaming.dstream.ReceiverInputDStream\nimport kafka.serializer.StringDecoder\nimport kafka.serializer.DefaultDecoder\nimport org.apache.spark.storage.StorageLevel\n\nval kcfg = Map(\"group.id\" -> \"notebook\", \"zookeeper.connect\" -> s\"${docker_ip}:2181\")\n\nval kafkaStream: ReceiverInputDStream[(String, Price)] = \nKafkaUtils.createStream[String, Price, StringDecoder, PriceDecoder](ssc, kcfg, Map(\"ticks\" -> 1),\n                                                                    StorageLevel.MEMORY_AND_DISK_SER_2)",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "import com.impactopia.oanda.thrift._\nimport org.apache.spark.streaming.kafka._\nimport org.apache.spark.streaming.dstream.ReceiverInputDStream\nimport kafka.serializer.StringDecoder\nimport kafka.serializer.DefaultDecoder\nimport org.apache.spark.storage.StorageLevel\nkcfg: scala.collection.immutable.Map[String,String] = Map(group.id -> notebook, zookeeper.connect -> 192.168.59.103:2181)\nkafkaStream: org.apache.spark.streaming.dstream.ReceiverInputDStream[(String, Array[com.impactopia.oanda.thrift.TPrice])] = org.apache.spark.streaming.kafka.KafkaInputDStream@75cf6300\n"
+      "text" : "import com.impactopia.oanda.thrift.PriceDecoder\nimport com.impactopia.oanda.thrift._\nimport com.impactopia.oanda.entities._\nimport org.apache.spark.streaming.kafka._\nimport org.apache.spark.streaming.dstream.ReceiverInputDStream\nimport kafka.serializer.StringDecoder\nimport kafka.serializer.DefaultDecoder\nimport org.apache.spark.storage.StorageLevel\nkcfg: scala.collection.immutable.Map[String,String] = Map(group.id -> notebook, zookeeper.connect -> 192.168.59.103:2181)\nkafkaStream: org.apache.spark.streaming.dstream.ReceiverInputDStream[(String, com.impactopia.oanda.entities.Price)] = org.apache.spark.streaming.kafka.KafkaInputDStream@3f44d3fe\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "org.apache.spark.streaming.kafka.KafkaInputDStream@75cf6300"
+        "text/html" : "org.apache.spark.streaming.kafka.KafkaInputDStream@3f44d3fe"
       },
       "output_type" : "execute_result",
       "execution_count" : 6
@@ -135,14 +135,14 @@
       "collapsed" : false
     },
     "cell_type" : "code",
-    "source" : "kafkaStream.foreachRDD { rdd => \n                        val first = rdd.take(1)\n                        result(\"\" + rdd.count + \" \" + first)\n                       }",
+    "source" : "kafkaStream.foreachRDD { rdd => \n                        val total = rdd.count\n                        val eurusdPrices = rdd.filter(_._2.instrument == \"EUR_USD\").map(_._2.price)\n                        val cnt = eurusdPrices.count\n                        val avg = if (cnt > 0) eurusdPrices.reduce(_ + _)/cnt else 0.0D\n                        result(total + \"     \" + cnt + \"   \" + avg)\n                       }",
     "outputs" : [ {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 9
+      "execution_count" : 8
     } ]
   }, {
     "metadata" : {
@@ -158,10 +158,10 @@
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "<p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon5e371f7a2d308ac60b3c5ec93c65d49c&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\n            req(\n              ['observable', 'knockout'],\n              function (O, ko) {\n                ko.applyBindings({\n                    value: O.makeObservable(valueId)\n                  },\n                  this\n                );\n              }\n            );\n        /*]]>*/</script></p>"
+        "text/html" : "<p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon3c495eac430c9b53cd955d95420fb288&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\n            req(\n              ['observable', 'knockout'],\n              function (O, ko) {\n                ko.applyBindings({\n                    value: O.makeObservable(valueId)\n                  },\n                  this\n                );\n              }\n            );\n        /*]]>*/</script></p>"
       },
       "output_type" : "execute_result",
-      "execution_count" : 8
+      "execution_count" : 7
     } ]
   }, {
     "metadata" : {
@@ -176,7 +176,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 10
+      "execution_count" : 9
     } ]
   }, {
     "metadata" : {

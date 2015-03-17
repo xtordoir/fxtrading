@@ -27,6 +27,17 @@ class TPriceDecoder(props: VerifiableProperties = null) extends Decoder[TPrice] 
   }
 }
 
+class PriceDecoder(props: VerifiableProperties = null) extends Decoder[Price] {
+  import TPriceImplicits._
+  def fromBytes(data: Array[Byte]): Price = {
+    val is = new ByteArrayInputStream(data)
+    val tprotocol = new TBinaryProtocol(new TIOStreamTransport(is))
+    val price: Price = TPrice.decode(tprotocol)
+    price
+  }
+}
+
+
 object THeartbeatImplicits {
 	implicit def THeartbeat2Heartbeat(thb: THeartbeat) =
 	          HeartBeat(TimeOfHeartbeat(new DateTime(thb.timestamp)))
